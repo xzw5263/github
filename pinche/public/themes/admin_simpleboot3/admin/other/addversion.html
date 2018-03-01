@@ -1,0 +1,80 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+		<li><a href="{:url('Other/version')}">版本列表</a></li>
+        <li class="active"><a href="{:url('Other/addversion')}">添加版本</a></li>
+    </ul>
+    <div class="row margin-top-20">
+        
+        <div class="col-md-6" style="margin-left:50px;">
+            <form class="js-ajax-form" action="{:url('Other/addversion')}" method="post">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <div class="form-group">
+                            <label for="input-parent"><span class="form-required">*</span>类型</label>
+                            <div>
+                                <select class="form-control" name="type" id="input-parent">
+                                    <option value="0">请选择</option>
+                                    <option value="1">安卓</option>
+									<option value="2">苹果</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="input-name"><span class="form-required">*</span>标题</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-name" name="title">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-name">版本号</label>
+                            <div>
+                                <input type="text" class="form-control" id="input-alias" name="version_name">
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label for="input-description">大小</label>
+                            <div>
+                                <textarea class="form-control" name="version_size" id="input-description"></textarea>
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label for="input-description">版本号代码（安卓使用）</label>
+                            <div>
+                                <textarea class="form-control" name="version_code" id="input-description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="input-description">内容</label>
+                            <div>
+                                <textarea class="form-control" name="version_content" id="input-description"></textarea>
+                            </div>
+                        </div>
+						
+						<div class="form-group">
+                            <label for="input-description">上传文件</label>
+                            <div>
+                                <input type="file" class="form-control" name="post">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary js-ajax-submit">{:lang('ADD')}</button>
+                    <a class="btn btn-default" href="{:url('Other/version')}">{:lang('BACK')}</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

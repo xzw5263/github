@@ -1,0 +1,91 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('distance/index')}">车主发布行程</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+				<th>昵称</th>
+                <th>出发地</th>
+				<th>目的地</th>
+				<th>车型</th>
+				<th>驾驶证号</th>
+				<th>出发时间</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+					<td>{$vo.nick}</td>
+                    <td>{$vo.departure}</td>
+					<td>{$vo.destination}</td>
+					<td>{$vo.cartype}</td>
+					<td>{$vo.licence}</td>
+					<td>{$vo.create_time}</td>
+                    <td>
+                        <!-- <a class="js-ajax-delete" href="{:url('Other/deleteversion',['id'=>$vo['id']])}">删除</a> -->
+						<a href="{:url('distance/cardetail',array('id'=>$vo.id))}">详情</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+	function agree(id){
+		layer.confirm('确定要同意么？',function(){
+			$.ajax({
+				type:'post',
+				url:"{:url('auth/cardagree')}",
+				data:'id='+id,
+				success:function(msg){
+					if(msg.code==1){
+						layer.alert('已同意',{'icon':1},function(){
+							history.go(0)
+						});
+					}else{
+						layer.alert('操作失败');
+					}
+				}
+			})
+		})
+	}
+	
+	function reject(id){
+		layer.confirm('确定要拒绝么？',function(){
+			$.ajax({
+				type:'post',
+				url:"{:url('auth/cardreject')}",
+				data:'id='+id,
+				success:function(msg){
+					if(msg.code==1){
+						layer.alert('已拒绝',{'icon':1},function(){
+							history.go(0)
+						});
+					}else{
+						layer.alert('操作失败');
+					}
+				}
+			})
+		})
+	}
+</script>
+</body>
+</html>

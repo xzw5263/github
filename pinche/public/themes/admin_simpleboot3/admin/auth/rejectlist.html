@@ -1,0 +1,108 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('auth/idcard')}">认证列表</a></li>
+		<li><a href="{:url('auth/agreelist')}">同意列表</a></li>
+		<li class="active"><a href="{:url('auth/rejectlist')}">拒绝列表</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th>昵称</th>
+				<th>姓名</th>
+				<th>身份证号</th>
+				<th>图片</th>
+				<th>发布时间</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.uid}</td>
+					<td>{$vo.realname}</td>
+					<td>{$vo.idcard}</td>
+					<td><a href="#" style="text-decoration:none;" onclick="showpic('{$vo.picture1}')"><img src="/interface/public/uploads/{$vo.picture1}" style="width:50px;height:50px;"> &nbsp;&nbsp;
+						</a>
+						<a href="#" style="text-decoration:none;" onclick="showpic('{$vo.picture2}')"><img src="/interface/public/uploads/{$vo.picture2}" style="width:50px;height:50px;"> &nbsp;&nbsp;
+						</a> </td>
+					<td>{$vo.create_time}</td>
+                    <td>
+                        <!-- <a class="js-ajax-delete" href="{:url('Other/deleteversion',['id'=>$vo['id']])}">删除</a> -->
+						<a href="{:url('auth/idcarddetails',array('id'=>$vo.id))}">详情</a>
+						<a class="js-ajax-delete" href="{:url('auth/deletecard',['id'=>$vo['id']])}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script src="__STATIC__/js/layer/layer.js"></script>
+<script>
+	function agree(id){
+		layer.confirm('确定要同意么？',function(){
+			$.ajax({
+				type:'post',
+				url:"{:url('auth/cardagree')}",
+				data:'id='+id,
+				success:function(msg){
+					if(msg.code==1){
+						layer.alert('已同意',{'icon':1},function(){
+							history.go(0)
+						});
+					}else{
+						layer.alert('操作失败');
+					}
+				}
+			})
+		})
+	}
+	
+	function reject(id){
+		layer.confirm('确定要拒绝么？',function(){
+			$.ajax({
+				type:'post',
+				url:"{:url('auth/cardreject')}",
+				data:'id='+id,
+				success:function(msg){
+					if(msg.code==1){
+						layer.alert('已拒绝',{'icon':1},function(){
+							history.go(0)
+						});
+					}else{
+						layer.alert('操作失败');
+					}
+				}
+			})
+		})
+	}
+	function showpic(pic){
+		var url="/interface/public/uploads/"+pic;
+		layer.open({
+		  type: 1,
+		  title: false,
+		  closeBtn: 0,
+		  area: ['700px', '450px'],
+		  skin: 'layui-layer-nobg', //没有背景色
+		  shadeClose: true,
+		  content: "<img src='"+url+"' style='width:700px;height:450px;'>"
+		});
+
+	}
+</script>
+</body>
+</html>
